@@ -950,9 +950,6 @@ def process_gradients(xr_dataset, config):
     xr_dataset_100['sigma0_detrend'] = xr.where(
         xr_dataset_100['land_mask'], np.nan, xr_dataset_100['sigma0']).transpose(*xr_dataset_100['sigma0'].dims)
 
-    xr_dataset_100['ancillary_wind'] = (
-        xr_dataset_100.model_U10 + 1j * xr_dataset_100.model_V10) * np.exp(1j * np.deg2rad(xr_dataset_100.ground_heading))
-
     downscales_factors = [1, 2, 4, 8]
     # 4 and 8 must be in downscales_factors
     assert all([x in downscales_factors for x in [4, 8]])
