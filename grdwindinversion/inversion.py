@@ -779,7 +779,6 @@ def preprocess(filename, outdir, config_path, overwrite=False, add_gradientsfeat
 
     xr_dataset.attrs['ancillary_source'] = xr_dataset['model_U10'].attrs['history'].split('decoded: ')[
         1].strip()
-    xr_dataset = xr_dataset.drop_vars(['model_U10', 'model_V10'])
 
     # nrcs processing
     xr_dataset['sigma0_ocean'] = xr.where(xr_dataset['mask'], np.nan,
@@ -1011,9 +1010,10 @@ def makeL2(filename, outdir, config_path, overwrite=False, generateCSV=True, res
     xarray.Dataset
         final dataset
     """
-
+    
     xr_dataset, out_file, config = preprocess(
         filename, outdir, config_path, overwrite, resolution)
+    xr_dataset = xr_dataset.drop_vars(['model_U10', 'model_V10'])
 
     if config["add_gradientsfeatures"]:
         xr_dataset, xr_dataset_streaks = process_gradients(
